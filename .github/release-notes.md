@@ -21,7 +21,6 @@
 - **macOS: cloned files count once.** Copies made with Finder's Duplicate, `cp -c` or by package managers share their space on disk. Each one was counted in full, so a disk could add up to more than its size. Thanks @paymog!
 - Fixed: on macOS the chart and the list were missing in full screen. Thanks @pshirali!
 - Fixed: Chinese, Japanese, Korean, Arabic, Thai and Indian text sat a few pixels above the Latin text next to it. Thanks @AoSankaku!
-- The sponsor list is now refreshed every hour while the app is open, and its request says which operating system and CPU type you use. The [privacy page](https://www.squirreldisk.com/privacy) has the details.
 
 ### From 2.5
 

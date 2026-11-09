@@ -131,12 +131,6 @@ $ squirreldisk scan ~/Projects --depth 2 --top 3
   <img src="screenshots/theme-sunset.png" alt="Sunset theme" width="420">
 </p>
 
-## Sponsors
-
-SquirrelDisk is free, and sponsors help keep it that way. Sponsors appear in a small banner inside the app. The banner is chosen on each user's computer, so personal data stays private.
-
-Interested? Head to [squirreldisk.com/sponsors](https://squirreldisk.com/sponsors).
-
 ## Community
 
 - Chat with us on [Discord](https://discord.gg/Xp8QtMM65w)

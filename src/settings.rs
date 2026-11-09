@@ -64,10 +64,6 @@ pub struct Settings {
     pub backup_folder: Option<String>,
     pub backup_remote: Option<String>,
     pub skipped_version: Option<String>,
-    /// Choose sponsors from on-device signals (nothing is sent).
-    pub personalized_sponsors: bool,
-    /// Send anonymous daily view totals / count clicks.
-    pub sponsor_measurement: bool,
     /// "Scan with SquirrelDisk" in the file manager's menu for folders.
     pub folder_menu: bool,
     /// The `squirreldisk` command was set up (or tried) at first launch.
@@ -91,8 +87,6 @@ impl Default for Settings {
             backup_folder: None,
             backup_remote: None,
             skipped_version: None,
-            personalized_sponsors: true,
-            sponsor_measurement: true,
             folder_menu: false,
             cli_offered: false,
         }
@@ -122,6 +116,41 @@ impl Settings {
             if let Ok(s) = serde_json::to_string_pretty(self) {
                 let _ = std::fs::write(p, s);
             }
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn legacy_settings_keep_preferences_without_removed_fields() {
+        for enabled in [true, false] {
+            let legacy = serde_json::json!({
+                "theme": "Paper",
+                "language": "de",
+                "chart_style": "treemap",
+                "auto_update": false,
+                "auto_install": false,
+                "personalized_sponsors": enabled,
+                "sponsor_measurement": enabled,
+            });
+            let settings: Settings = serde_json::from_value(legacy).unwrap();
+            assert_eq!(settings.theme, "Paper");
+            assert_eq!(settings.language, "de");
+            assert_eq!(settings.chart_style, "treemap");
+            assert!(!settings.auto_update);
+            assert!(!settings.auto_install);
+            assert_eq!(settings.rings, Settings::default().rings);
+
+            let saved = serde_json::to_value(&settings).unwrap();
+            assert!(saved.get("personalized_sponsors").is_none());
+            assert!(saved.get("sponsor_measurement").is_none());
+            let reloaded: Settings = serde_json::from_value(saved).unwrap();
+            assert_eq!(reloaded.theme, settings.theme);
+            assert_eq!(reloaded.chart_style, settings.chart_style);
+            assert_eq!(reloaded.auto_install, settings.auto_install);
         }
     }
 }
